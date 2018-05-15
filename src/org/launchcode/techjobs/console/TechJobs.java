@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import static org.launchcode.techjobs.console.JobData.findByValue;
+
 /**
  * Created by LaunchCode
  */
@@ -58,10 +60,10 @@ public class TechJobs {
 
                 // What is their search term?
                 System.out.println("\nSearch term: ");
-                String searchTerm = in.nextLine();
+                String searchTerm = in.nextLine().toLowerCase();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -89,19 +91,17 @@ public class TechJobs {
             System.out.println("\n" + menuHeader);
 
             // Print available choices
-            for (Integer j = 0; j < choiceKeys.length; j++) {
+            for (Integer j = 0; j < choiceKeys.length; j++)
                 System.out.println("" + j + " - " + choices.get(choiceKeys[j]));
-            }
 
             choiceIdx = in.nextInt();
             in.nextLine();
 
             // Validate user's input
-            if (choiceIdx < 0 || choiceIdx >= choiceKeys.length) {
+            if (choiceIdx < 0 || choiceIdx >= choiceKeys.length)
                 System.out.println("Invalid choice. Try again.");
-            } else {
+            else
                 validChoice = true;
-            }
 
         } while(!validChoice);
 
@@ -111,6 +111,16 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
-        System.out.println("printJobs is not implemented yet");
+        if (someJobs.size() > 0) {
+            for (HashMap<String, String> job: someJobs) {
+                System.out.println("\n");
+                for (String key : job.keySet()) {
+                    System.out.println(key + ": " + job.get(key));
+                }
+            }
+        } else {
+            System.out.println("No jobs found at this time.");
+        }
+
     }
 }
